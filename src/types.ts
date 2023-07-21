@@ -4,19 +4,17 @@ export interface Resume = {
     position: string
     location: string
     educations: Education[]
-    experience: Experience[]
+    experiences: Experience[]
 }
 
 export interface Education = {
     name: string
     degree: string
-    location: string
     start: number
     end: number
 }
 
 export interface Experience = {
-    name: string
     position: string
     company: string
     start: number

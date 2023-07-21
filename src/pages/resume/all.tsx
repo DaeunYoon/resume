@@ -23,6 +23,15 @@ export default function Home() {
             <div>{resume.walletAddress}</div>
             <div>{resume.name}</div>
             <div>{resume.position}</div>
+            <div>{resume.location}</div>
+            {resume.educations?.map((education, index) => (
+              <div key="index">
+                <div>{education.name}</div>
+                <div>{education.degree}</div>
+                <div>{education.start}</div>
+                <div>{education.end}</div>
+              </div>
+            ))}
           </div>
         ))
       ) : (
