@@ -94,11 +94,25 @@ export default function Page() {
     }
   }, [messages, isConnected, isOnNetwork])
 
+  const BackButton = () => {
+    return (
+      <Button className="mb-3" onClick={() => router.back()}>
+        Back
+      </Button>
+    )
+  }
+
   if (!router.query.address) {
-    return <div>Invalid wallet address</div>
+    return (
+      <div>
+        <BackButton />
+        <p>Invalid wallet address</p>
+      </div>
+    )
   }
   return (
     <>
+      <BackButton />
       {/* Display XMTP connection options if connected but not initialized */}
       {isConnected && !isOnNetwork && (
         <div>

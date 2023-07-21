@@ -55,22 +55,28 @@ export default function Home() {
 
   return (
     <>
+      <h2 className="text-base font-bold">Your conversations</h2>
       {/* Display XMTP connection options if connected but not initialized */}
-      {isConnected && !isOnNetwork && (
+      {isConnected && !isOnNetwork ? (
         <div>
-          {signer?.address}
           <Button className="PrimaryButton" onClick={initXmtp}>
             Connect to XMTP
           </Button>
         </div>
+      ) : conversations.length > 0 ? (
+        conversations.map((conversation, index) => (
+          <div key={index} className="divide-solid">
+            <span className="text-gray-700">Conversation with</span>
+            <Button type="link">
+              <Link href={`/message/${conversation?.peerAddress}`}>
+                "{conversation?.peerAddress}"
+              </Link>
+            </Button>
+          </div>
+        ))
+      ) : (
+        <div>You did not start conversation yet!</div>
       )}
-      {conversations.map((conversation, index) => (
-        <Button key={index} type="link">
-          <Link href={`/message/${conversation?.peerAddress}`}>
-            {conversation?.peerAddress}
-          </Link>
-        </Button>
-      ))}
     </>
   )
 }
