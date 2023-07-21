@@ -57,7 +57,7 @@ export const useResumesStore = create<ResumesStore>()(
         draft.state.isLoading = true
 
         if (draft.state.resumes.length === 0) {
-          draft.addResume()
+          draft.fetchResumes()
         }
         draft.state.myResume = draft.state.resumes.find(
           ({ walletAddress }) => walletAddress === walletAddrToFind

@@ -29,14 +29,21 @@ export async function storeFile(resume: Resume) {
   })
   const files = [new File([blob], 'resume.json')]
 
+  console.log(files)
+
   if (!storage) {
     storage = makeStorageClient()
   }
 
+  console.log(storage)
+
   const cid = await storage.put(files)
+  console.log(cid)
+
   console.log('file stored, cid:', cid)
 
   const file = await getFile(cid)
+  console.log(file)
 
   return { cid, file }
 }

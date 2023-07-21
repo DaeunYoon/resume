@@ -7,7 +7,7 @@ import { useAccount } from 'wagmi'
 
 export default function Home() {
   const { addResume, fetchResumeById } = useResumesStore()
-  const { myResume, isFetching, isLoading } = useResumesStore(
+  const { myResume, isUploading, isLoading } = useResumesStore(
     (state) => state.state
   )
   const { address } = useAccount()
