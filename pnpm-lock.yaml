@@ -23,8 +23,8 @@ dependencies:
     specifier: ^2.7.0
     version: 2.7.0(react-dom@18.2.0)(react@18.2.0)
   '@xmtp/react-sdk':
-    specifier: 1.0.0-preview.40
-    version: 1.0.0-preview.40(@xmtp/xmtp-js@9.4.1)(react@18.2.0)
+    specifier: 1.0.0-preview.2
+    version: 1.0.0-preview.2(autoprefixer@10.4.14)(postcss@8.4.26)(tailwindcss@3.3.3)
   antd:
     specifier: ^5.7.0
     version: 5.7.0(react-dom@18.2.0)(react@18.2.0)
@@ -645,6 +645,14 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
+    dev: false
+
+  /@heroicons/react@2.0.18(react@18.2.0):
+    resolution: {integrity: sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array@0.11.10:
@@ -1706,6 +1714,10 @@ packages:
       '@stablelib/wipe': 1.0.1
     dev: false
 
+  /@stardazed/streams-polyfill@2.4.0:
+    resolution: {integrity: sha512-W6Yg9cA8YT1b9qCQsz/2+kmKt7i/Za2Nj4QOLqdiANzpTiGy5mOyCQNyh0CVpbvXkjCBo2QxrwPvbDlP9u9k+Q==}
+    dev: false
+
   /@swc/helpers@0.5.1:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
@@ -2544,27 +2556,34 @@ packages:
       undici: 5.22.1
     dev: false
 
-  /@xmtp/react-sdk@1.0.0-preview.40(@xmtp/xmtp-js@9.4.1)(react@18.2.0):
-    resolution: {integrity: sha512-WNkzVaONaRqhAlxoMd2gY17fa36KcuJHutPtOaoVGzP2QZWpLfiymDe8tm2IVxQdud4EMX4wjxtGRL+hBE3pTQ==}
-    engines: {node: '>=18'}
+  /@xmtp/react-sdk@1.0.0-preview.2(autoprefixer@10.4.14)(postcss@8.4.26)(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-m9qD5iQjFs0vX2aRuz0WPtfMBqfl3RrkIK8vhtPtFvP+jv/sqDYCsyha1pnMauxaMnAVO2Zps/NcIMVW1RhlWQ==}
     peerDependencies:
-      '@xmtp/xmtp-js': ^9.1.6
-      react: '>=16.14'
+      autoprefixer: ^10.4.14
+      postcss: ^8.4.21
+      tailwindcss: ^3.2.7
     dependencies:
-      '@xmtp/xmtp-js': 9.4.1
+      '@heroicons/react': 2.0.18(react@18.2.0)
+      '@xmtp/xmtp-js': 7.14.2
+      autoprefixer: 10.4.14(postcss@8.4.26)
       date-fns: 2.30.0
-      dexie: 3.2.4
+      postcss: 8.4.26
       react: 18.2.0
+      react-18-blockies: 1.0.6(react@18.2.0)
+      tailwindcss: 3.3.3
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
     dev: false
 
-  /@xmtp/xmtp-js@9.4.1:
-    resolution: {integrity: sha512-NNK7HcR2aiQhZkHRWGUp1gRJcqzkcyE8g7gCatbyZaNDd0JQBo/wLmiCZ3aibXOHOKLj39eIwVfqCRDejMNflw==}
-    engines: {node: '>=18'}
+  /@xmtp/xmtp-js@7.14.2:
+    resolution: {integrity: sha512-HU3xn4IEOA81mC51DHSo0k9n87TYUqcg0RG5s+ThkdeyQbnaV4h9AApD+AXE2zeDK9ThJA3qsKcODnf88SCAWQ==}
     dependencies:
       '@noble/secp256k1': 1.7.1
+      '@stardazed/streams-polyfill': 2.4.0
       '@xmtp/proto': 3.26.0
       async-mutex: 0.4.0
-      elliptic: 6.5.4
+      eccrypto: 1.1.6
       ethers: 5.7.2
       long: 5.2.3
     transitivePeerDependencies:
@@ -2636,6 +2655,12 @@ packages:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       acorn: 8.10.0
+    dev: false
+
+  /acorn@7.1.1:
+    resolution: {integrity: sha512-add7dgA5ppRPxCFJoAGfMDi7PIBXq1RtGo7BhbLaxwrXPOmw8gq48Y9ozT01hUKy9byMjlR20EJhu5zlkErEkg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
     dev: false
 
   /acorn@8.10.0:
@@ -3013,6 +3038,13 @@ packages:
     dependencies:
       file-uri-to-path: 1.0.0
     dev: false
+
+  /bip66@1.1.5:
+    resolution: {integrity: sha512-nemMHz95EmS38a26XbbdxIYj5csHd3RMP3H5bwQknX0WYHF01qhpufP42mLOwVICuH2JmhIhXiWs89MfUGL7Xw==}
+    dependencies:
+      safe-buffer: 5.2.1
+    dev: false
+    optional: true
 
   /bl@5.1.0:
     resolution: {integrity: sha512-tv1ZJHLfTDnXE6tMHv73YgSJaWR2AFuPwMntBe7XL/GBFHnT0CLnsHMogfk5+GzCDC5ZWarSCYaIGATZt9dNsQ==}
@@ -3601,11 +3633,6 @@ packages:
     resolution: {integrity: sha512-53rsFbGdwMwlF7qvCt0ypLM5V5/Mbl0szB7GPN8y9NCcbknYOeVVXdrXEq+90IwAfrrzt6Hd+u2E2ntakICU8w==}
     dev: false
 
-  /dexie@3.2.4:
-    resolution: {integrity: sha512-VKoTQRSv7+RnffpOJ3Dh6ozknBqzWw/F3iqMdsZg958R0AS8AnY9x9d1lbwENr0gzeGJHXKcGhAMRaqys6SxqA==}
-    engines: {node: '>=6.0'}
-    dev: false
-
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
     dev: false
@@ -3659,6 +3686,16 @@ packages:
     resolution: {integrity: sha512-R8LUSEay/68zE5c8/3BDxiTEvgb4xZTF0RKmAHfiEVN3klfIpXfi2/QCoiWPccVQ0J/ZGdz9OjzL4uJEP/MRAw==}
     dev: false
 
+  /drbg.js@1.0.1:
+    resolution: {integrity: sha512-F4wZ06PvqxYLFEZKkFxTDcns9oFNk34hvmJSEwdzsxVQ8YI5YaxtACgQatkYgv2VI2CFkUd2Y+xosPQnHv809g==}
+    engines: {node: '>=0.10'}
+    dependencies:
+      browserify-aes: 1.2.0
+      create-hash: 1.2.0
+      create-hmac: 1.1.7
+    dev: false
+    optional: true
+
   /duplexify@4.1.2:
     resolution: {integrity: sha512-fz3OjcNCHmRP12MJoZMPglx8m4rrFP8rovnk4vT8Fs+aonZoCwGg10dSsQsfP/E62eZcPTMSMP6686fu9Qlqtw==}
     dependencies:
@@ -3666,6 +3703,18 @@ packages:
       inherits: 2.0.4
       readable-stream: 3.6.2
       stream-shift: 1.0.1
+    dev: false
+
+  /eccrypto@1.1.6:
+    resolution: {integrity: sha512-d78ivVEzu7Tn0ZphUUaL43+jVPKTMPFGtmgtz1D0LrFn7cY3K8CdrvibuLz2AAkHBLKZtR8DMbB2ukRYFk987A==}
+    requiresBuild: true
+    dependencies:
+      acorn: 7.1.1
+      elliptic: 6.5.4
+      es6-promise: 4.2.8
+      nan: 2.14.0
+    optionalDependencies:
+      secp256k1: 3.7.1
     dev: false
 
   /electron-fetch@1.9.1:
@@ -6039,6 +6088,10 @@ packages:
       thenify-all: 1.6.0
     dev: false
 
+  /nan@2.14.0:
+    resolution: {integrity: sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==}
+    dev: false
+
   /nanoid@3.3.3:
     resolution: {integrity: sha512-p1sjXuopFs0xg+fPASzQ28agW1oHD7xDsd9Xkf3T15H3c/cifrFHVwrh74PdoklAPi+i7MdRsE47vm2r6JoB+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -7311,6 +7364,14 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /react-18-blockies@1.0.6(react@18.2.0):
+    resolution: {integrity: sha512-MPdEdfYm8wO2XEdTDEpwIJJBE0/zdkmZqGbEcypK6EV+nKeqE4qGs6XfBAs6VcrSkZ0ssu8jZNd0qXrplruVqg==}
+    peerDependencies:
+      react: '>=18.2.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-dom@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -7666,6 +7727,22 @@ packages:
   /scrypt-js@3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
     dev: false
+
+  /secp256k1@3.7.1:
+    resolution: {integrity: sha512-1cf8sbnRreXrQFdH6qsg2H71Xw91fCCS9Yp021GnUNJzWJS/py96fS4lHbnTnouLp08Xj6jBoBB6V78Tdbdu5g==}
+    engines: {node: '>=4.0.0'}
+    requiresBuild: true
+    dependencies:
+      bindings: 1.5.0
+      bip66: 1.1.5
+      bn.js: 4.12.0
+      create-hash: 1.2.0
+      drbg.js: 1.0.1
+      elliptic: 6.5.4
+      nan: 2.14.0
+      safe-buffer: 5.2.1
+    dev: false
+    optional: true
 
   /secp256k1@4.0.3:
     resolution: {integrity: sha512-NLZVf+ROMxwtEj3Xa562qgv2BK5e2WNmXPiOdVIPLgs6lyTzMvBq0aWTYMI5XCP9jZMVKOcqZLw/Wc4vDkuxhA==}
