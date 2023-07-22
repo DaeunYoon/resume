@@ -5,6 +5,7 @@ import type {
   EASChainConfig,
   EnsNamesResult,
   MyAttestationResult,
+  PoapWithEvent,
 } from './types'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -159,4 +160,34 @@ export async function getConfirmationAttestationsForUIDs(refUids: string[]) {
     }
   )
   return response.data.data.attestations
+}
+
+/** POAP SUBGRAPH */
+export async function getRecentlyMintedPoapForId(to: string) {
+  const response = await axios.post<{ validateEntities: PoapWithEvent[] }>(
+    'https://api.thegraph.com/subgraphs/name/sharathkrml/poap-gnosis',
+    {
+      query: `query Poap {\n  validateEntities(\n    first: 15\n    where: { to: "${to}"}\n    orderBy: id\n    orderDirection: desc\n  ) {\n    id\n    eventId\n  }\n}`,
+      variables: {},
+    },
+    {
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+  )
+
+  const poaps = [] as PoapWithEvent[]
+  for (const validateEntity of response.data.data.validateEntities) {
+    const eventResponse = await axios.get(
+      `https://api.poap.tech/metadata/${validateEntity.eventId}/${validateEntity.id}`
+    )
+
+    poaps.push({
+      ...validateEntity,
+      imageUri: eventResponse.data.image_url,
+    })
+  }
+
+  return poaps
 }

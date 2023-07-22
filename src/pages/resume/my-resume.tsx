@@ -329,9 +329,6 @@ export default function Home() {
               {error && <span className="text-red-500 text-base">{error}</span>}
             </>
           )}
-          {/* <Button htmlType="submit" className="w-full PrimaryButton">
-            Submit
-          </Button> */}
         </Form.Item>
       </Form>
       <Divider />

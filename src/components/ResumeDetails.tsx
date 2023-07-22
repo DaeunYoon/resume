@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 import type { Resume } from '~/types'
 import { Button, Divider } from 'antd'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
+import { getRecentlyMintedPoapForId } from '~/utils'
 
 import { useAccount } from 'wagmi'
 import SkillAttestationList from '~/components/SkillAttestationList'
@@ -19,6 +21,7 @@ export default function ResumeDetails({
 }) {
   const router = useRouter()
   const [isMyResume, setIsMyResume] = useState(false)
+  const [recentlyMintedPoap, setRecentlyMintedPoap] = useState([])
   const { address } = useAccount()
 
   useEffect(() => {
@@ -26,6 +29,14 @@ export default function ResumeDetails({
       setIsMyResume(true)
     }
   }, [address])
+
+  useEffect(() => {
+    const getRecentlyMintedPoap = async () => {
+      const poaps = await getRecentlyMintedPoapForId(resume.walletAddress)
+      setRecentlyMintedPoap(poaps)
+    }
+    getRecentlyMintedPoap()
+  }, [resume])
 
   return (
     <div className="w-full">
@@ -104,6 +115,28 @@ export default function ResumeDetails({
             attestAddress={resume.walletAddress}
             signer={signer}
           />
+        </>
+      )}
+      {Boolean(recentlyMintedPoap.length) && (
+        <>
+          <Divider />
+          <div className="flex gap-2">
+            <div className="w-[calc(50%-0.25rem)]">
+              <span className="font-bold">
+                {resume.name}'s recently minted POAPs:
+              </span>
+              <div className="flex gap-2">
+                {recentlyMintedPoap.map((poap) => (
+                  <Link
+                    href={`https://app.poap.xyz/token/${poap.id}`}
+                    target="_blank"
+                  >
+                    <img src={poap.imageUri} className="w-14 h-14" alt="poap" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>

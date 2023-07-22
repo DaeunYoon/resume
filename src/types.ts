@@ -73,3 +73,9 @@ export type ResolvedAttestation = Attestation & {
   decodedData?: Record<string, any>;
   confirmations?: Attestation[];
 };
+
+export type PoapWithEvent = {
+  id: string;
+  eventId: string;
+  imageUri?: string;
+}
