@@ -5,17 +5,21 @@ import { ethers } from 'ethers'
 import { useEffect, useState, useRef } from 'react'
 import Chat from '~/components/Chat'
 import { Button } from 'antd'
+import { useXmtpClient } from '~/stores/xmtpClient'
+import { useAccount } from 'wagmi'
 
 import BackButton from '~/components/BackButton'
 
 export default function Page() {
   const router = useRouter()
+  const { address } = useAccount()
   const [messages, setMessages] = useState(null)
   const convRef = useRef(null)
-  const clientRef = useRef(null)
-  const [signer, setSigner] = useState(null)
-  const [isConnected, setIsConnected] = useState(false)
-  const [isOnNetwork, setIsOnNetwork] = useState(false)
+  const { setClient } = useXmtpClient()
+  const { isConnected, isOnNetwork, xmtpClient } = useXmtpClient(
+    (state) => state.state
+  )
+  const [isLoading, setIsLoading] = useState(false)
 
   // Function to load the existing messages in a conversation
   const newConversation = async function (xmtp_client, addressTo) {
@@ -36,37 +40,11 @@ export default function Page() {
 
   // Function to initialize the XMTP client
   const initXmtp = async function () {
-    // Create the XMTP client
-    const xmtp = await Client.create(signer, { env: 'production' })
-    //Create or load conversation with Gm bot
-    newConversation(xmtp, router.query.address)
-    // Set the XMTP client in state for later use
-    setIsOnNetwork(!!xmtp.address)
-    //Set the client in the ref
-    clientRef.current = xmtp
-  }
-
-  // Function to connect to the wallet
-  const connectWallet = async function () {
-    // Check if the ethereum object exists on the window object
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        // Request access to the user's Ethereum accounts
-        await window.ethereum.enable()
-
-        // Instantiate a new ethers provider with Metamask
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-
-        // Get the signer from the ethers provider
-        setSigner(provider.getSigner())
-
-        // Update the isConnected data property based on whether we have a signer
-        setIsConnected(true)
-      } catch (error) {
-        console.error('User rejected request', error)
-      }
-    } else {
-      console.error('Metamask not found')
+    try {
+      setIsLoading(true)
+      await newConversation(xmtpClient, router.query.address)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -74,8 +52,14 @@ export default function Page() {
     if (!router.query.address) {
       return
     }
-    connectWallet()
+    if (xmtpClient?.address !== address) {
+      setClient()
+    }
   }, [])
+
+  useEffect(() => {
+    if (xmtpClient) initXmtp()
+  }, [xmtpClient])
 
   useEffect(() => {
     if (isOnNetwork && convRef.current) {
@@ -107,22 +91,19 @@ export default function Page() {
   return (
     <>
       <BackButton />
-      {/* Display XMTP connection options if connected but not initialized */}
-      {isConnected && !isOnNetwork && (
-        <div>
-          {signer?.address}
-          <Button className="PrimaryButton" onClick={initXmtp}>
-            Connect to XMTP
-          </Button>
-        </div>
-      )}
       {/* Render the Chat component if connected, initialized, and messages exist */}
-      {isConnected && isOnNetwork && messages && (
-        <Chat
-          client={clientRef.current}
-          conversation={convRef.current}
-          messageHistory={messages}
-        />
+      {isLoading ? (
+        <>Loading...</>
+      ) : (
+        isConnected &&
+        isOnNetwork &&
+        messages && (
+          <Chat
+            client={xmtpClient}
+            conversation={convRef.current}
+            messageHistory={messages}
+          />
+        )
       )}
     </>
   )
