@@ -27,11 +27,13 @@ export default function SkillAttestationList({
   signer,
   isStale = false,
   setIsStale,
+  classes,
 }: {
   attestAddress: string
   signer: ethers.Signer
   isStale?: boolean
   setIsStale?: Dispatch<SetStateAction<boolean>>
+  classes?: string
 }) {
   const { address } = useAccount()
 
@@ -107,7 +109,7 @@ export default function SkillAttestationList({
   )
 
   return (
-    <div className="max-w-[600px] border rounded p-2">
+    <div className={`max-w-[600px] border rounded p-2 ${classes}`}>
       <h3 className="font-bold mb-3">Attestations</h3>
       {loading && <div>Looking for data...⌐◨-◨</div>}
       {!loading && (
