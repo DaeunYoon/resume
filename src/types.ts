@@ -70,6 +70,6 @@ export interface Attestation {
 }
 
 export type ResolvedAttestation = Attestation & {
-  name: string;
+  decodedData?: Record<string, any>;
   confirmations?: Attestation[];
 };

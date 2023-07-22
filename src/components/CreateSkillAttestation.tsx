@@ -1,16 +1,6 @@
 import { useState } from 'react'
-import {
-  baseURL,
-  CUSTOM_SCHEMAS,
-  EASContractAddress,
-  getAddressForENS,
-  getAttestation,
-} from '~/utils'
-import {
-  EAS,
-  SchemaEncoder,
-  Offchain,
-} from '@ethereum-attestation-service/eas-sdk'
+import { baseURL, CUSTOM_SCHEMAS, EASContractAddress } from '~/utils'
+import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
 import invariant from 'tiny-invariant'
 import { ethers } from 'ethers'
 import { useAccount } from 'wagmi'
@@ -18,6 +8,7 @@ import { useAccount } from 'wagmi'
 import axios from 'axios'
 import { Input, Select, Button } from 'antd'
 import { RocketOutlined, StarOutlined } from '@ant-design/icons'
+import SkillAttestationList from '~/components/SkillAttestationList'
 
 const eas = new EAS(EASContractAddress)
 
@@ -37,7 +28,7 @@ export default function CreateSkillAttestation({
     value: i + 1,
   }))
   return (
-    <div className="max-w-[600px]">
+    <div className="max-w-[600px] space-y-2">
       <h3>I attest my skill of </h3>
       <div className="flex gap-2">
         <Input
@@ -83,8 +74,6 @@ export default function CreateSkillAttestation({
               })
 
               const uid = await tx.wait()
-
-              const attestation = await getAttestation(uid)
             } catch (e) {
               console.error(e)
             } finally {
@@ -95,6 +84,7 @@ export default function CreateSkillAttestation({
           Attest
         </Button>
       </div>
+      <SkillAttestationList />
     </div>
   )
 }

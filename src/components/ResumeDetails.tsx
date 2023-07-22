@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 
 import type { Resume } from '~/types'
-import { Button } from 'antd'
+import { Button, Divider } from 'antd'
 import { useRouter } from 'next/router'
 
 import { useAccount } from 'wagmi'
+import SkillAttestationList from '~/components/SkillAttestationList'
 
 export default function ResumeItem({ resume }: { resume: Resume }) {
   const router = useRouter()
@@ -87,6 +88,8 @@ export default function ResumeItem({ resume }: { resume: Resume }) {
           </div>
         ))}
       </div>
+      <Divider />
+      <SkillAttestationList />
     </div>
   )
 }
