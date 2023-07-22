@@ -240,7 +240,7 @@ export default function Home() {
             <>
               {fields.map((field) => (
                 <div
-                  key={`position-${field.key}`}
+                  key={`experience-${field.key}`}
                   className="w-full flex flex-col gap-1"
                 >
                   <Form.Item
