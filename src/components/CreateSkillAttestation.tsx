@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import { baseURL, CUSTOM_SCHEMAS, EASContractAddress } from '~/utils'
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
 import invariant from 'tiny-invariant'
@@ -22,11 +23,13 @@ export default function CreateSkillAttestation({
   const [skill, setSkill] = useState('')
   const [score, setScore] = useState<undefined | number>(undefined)
   const [attesting, setAttesting] = useState(false)
+  const [isStale, setIsStale] = useState(false)
 
   const options = Array.from({ length: 10 }).map((_, i) => ({
     label: i + 1,
     value: i + 1,
   }))
+
   return (
     <div className="max-w-[600px] space-y-2">
       <h3>I attest my skill of </h3>
@@ -74,6 +77,7 @@ export default function CreateSkillAttestation({
               })
 
               const uid = await tx.wait()
+              setIsStale(true)
             } catch (e) {
               console.error(e)
             } finally {
@@ -84,7 +88,12 @@ export default function CreateSkillAttestation({
           Attest
         </Button>
       </div>
-      <SkillAttestationList address={address} />
+      <SkillAttestationList
+        attestAddress={address}
+        signer={signer}
+        isStale={isStale}
+        setIsStale={setIsStale}
+      />
     </div>
   )
 }

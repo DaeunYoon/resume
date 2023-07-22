@@ -77,7 +77,11 @@ export default function Home() {
             Edit
           </Button>
         </div>
-        <ResumeDetails resume={myResume} showAttestationList={false} />
+        <ResumeDetails
+          resume={myResume}
+          showAttestationList={false}
+          signer={signer}
+        />
         <Divider />
         {signer && <CreateSkillAttestation signer={signer} />}
       </>
