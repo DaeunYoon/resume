@@ -86,9 +86,14 @@ export const useResumesStore = create<ResumesStore>()(
       }
 
       set(
+        produce((draft) => {
+          draft.state.isUploading = false
+        })
+      )
+
+      set(
         produce(async (draft) => {
           await draft.fetchResumes()
-          draft.state.isUploading = false
         })
       )
     },
