@@ -19,6 +19,8 @@
     "@xmtp/react-sdk": "1.0.0-preview.2",
     "antd": "^5.7.0",
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
+    "dayjs": "^1.11.9",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
     "immer": "^10.0.2",

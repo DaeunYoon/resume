@@ -1,17 +1,20 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Input, Form, Button } from 'antd'
+import { Input, Form, Button, Divider } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { useResumesStore } from '~/stores/resume'
 import type { Resume } from '~/types'
 import ResumeDetails from '~/components/ResumeDetails'
+import CreateSkillAttestation from '~/components/CreateSkillAttestation'
 
 import { useAccount } from 'wagmi'
+import { ethers } from 'ethers'
 
 export default function Home() {
   const { addResume, fetchResumes } = useResumesStore()
   const { resumes, isUploading, isLoading } = useResumesStore(
     (state) => state.state
   )
+  const [signer, setSigner] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
   const [form] = Form.useForm()
 
@@ -20,10 +23,30 @@ export default function Home() {
     return resumes.find((resume) => resume.walletAddress === address)
   }, [resumes, address])
 
+  const connectWallet = async function () {
+    // Check if the ethereum object exists on the window object
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        await window.ethereum.enable()
+        // Instantiate a new ethers provider with Metamask
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+        // Get the signer from the ethers provider
+        setSigner(provider.getSigner())
+      } catch (error) {
+        console.error('User rejected request', error)
+      }
+    } else {
+      console.error('Metamask not found')
+    }
+  }
+
   useEffect(() => {
     if (resumes.length === 0) {
       fetchResumes()
     }
+    connectWallet()
   }, [])
 
   const onFinish = (value: any) => {
@@ -55,6 +78,8 @@ export default function Home() {
           </Button>
         </div>
         <ResumeDetails resume={myResume} />
+        <Divider />
+        {signer && <CreateSkillAttestation signer={signer} />}
       </>
     )
   }
@@ -231,6 +256,8 @@ export default function Home() {
           </Button>
         </Form.Item>
       </Form>
+      <Divider />
+      {signer && <CreateSkillAttestation signer={signer} />}
     </div>
   )
 }
