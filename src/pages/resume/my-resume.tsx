@@ -12,6 +12,9 @@ export default function Home() {
   const { resumes, isUploading, isLoading } = useResumesStore(
     (state) => state.state
   )
+  const [isEditing, setIsEditing] = useState(false)
+  const [form] = Form.useForm()
+
   const { address } = useAccount()
   const myResume = useMemo(() => {
     return resumes.find((resume) => resume.walletAddress === address)
@@ -38,13 +41,29 @@ export default function Home() {
     return <div>Uploading...</div>
   }
 
-  if (myResume) {
-    return <ResumeDetails resume={myResume} />
+  if (myResume && !isEditing) {
+    return (
+      <>
+        <div className="w-full flex justify-end">
+          <Button
+            onClick={() => {
+              setIsEditing(true)
+              form.setFieldsValue(myResume)
+            }}
+          >
+            Edit
+          </Button>
+        </div>
+        <ResumeDetails resume={myResume} />
+      </>
+    )
   }
 
+  // TODO: Delete old resume once one is updated
   return (
     <div className="border p-2 block w-[670px]">
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 3 }}
         wrapperCol={{ span: 20 }}
