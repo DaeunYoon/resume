@@ -16,6 +16,7 @@ export default function Home() {
     setConversations(conversations)
   }
 
+  // TODO: useLocalStore to save xmtp client, reset it when walletaddress changes
   // Function to initialize the XMTP client
   const initXmtp = async function () {
     // Create the XMTP client

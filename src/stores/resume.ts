@@ -7,17 +7,17 @@ import type { Resume } from '~/types'
 
 interface ResumesStore {
   fetchResumes: () => Promise<void>
-  fetchResumeById: (walletAddrToFind: string) => Promise<void>
   addResume: (resume: Resume) => Promise<string>
   state: {
     isLoading: boolean
     isUploading: boolean
     resumes: Resume[]
-    myResume: Resume
   }
 }
 
 const state = {
+  isLoading: false,
+  isUploading: false,
   resumes: [],
 }
 
@@ -51,19 +51,6 @@ export const useResumesStore = create<ResumesStore>()(
           draft.state.isLoading = false
         })
       )
-    },
-    fetchResumeById: async (walletAddrToFind: string) => {
-      set((draft) => {
-        draft.state.isLoading = true
-
-        if (draft.state.resumes.length === 0) {
-          draft.fetchResumes()
-        }
-        draft.state.myResume = draft.state.resumes.find(
-          ({ walletAddress }) => walletAddress === walletAddrToFind
-        )
-        draft.state.isLoading = false
-      })
     },
     addResume: async (resume: Resume) => {
       set(

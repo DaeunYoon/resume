@@ -1,20 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Input, Form, Button } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { useResumesStore } from '~/stores/resume'
 import type { Resume } from '~/types'
+import ResumeDetails from '~/components/ResumeDetails'
 
 import { useAccount } from 'wagmi'
 
 export default function Home() {
-  const { addResume, fetchResumeById } = useResumesStore()
-  const { myResume, isUploading, isLoading } = useResumesStore(
+  const { addResume, fetchResumes } = useResumesStore()
+  const { resumes, isUploading, isLoading } = useResumesStore(
     (state) => state.state
   )
   const { address } = useAccount()
+  const myResume = useMemo(() => {
+    return resumes.find((resume) => resume.walletAddress === address)
+  }, [resumes, address])
 
   useEffect(() => {
-    fetchResumeById()
+    if (resumes.length === 0) {
+      fetchResumes()
+    }
   }, [])
 
   const onFinish = (value: any) => {
@@ -30,6 +36,10 @@ export default function Home() {
 
   if (isUploading) {
     return <div>Uploading...</div>
+  }
+
+  if (myResume) {
+    return <ResumeDetails resume={myResume} />
   }
 
   return (

@@ -6,6 +6,8 @@ import { useEffect, useState, useRef } from 'react'
 import Chat from '~/components/Chat'
 import { Button } from 'antd'
 
+import BackButton from '~/components/BackButton'
+
 export default function Page() {
   const router = useRouter()
   const [messages, setMessages] = useState(null)
@@ -93,14 +95,6 @@ export default function Page() {
       streamMessages()
     }
   }, [messages, isConnected, isOnNetwork])
-
-  const BackButton = () => {
-    return (
-      <Button className="mb-3" onClick={() => router.back()}>
-        Back
-      </Button>
-    )
-  }
 
   if (!router.query.address) {
     return (
