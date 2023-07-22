@@ -7,7 +7,13 @@ import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import SkillAttestationList from '~/components/SkillAttestationList'
 
-export default function ResumeItem({ resume }: { resume: Resume }) {
+export default function ResumeItem({
+  resume,
+  showAttestationList = true,
+}: {
+  resume: Resume
+  showAttestationList?: boolean
+}) {
   const router = useRouter()
   const [isMyResume, setIsMyResume] = useState(false)
   const { address } = useAccount()
@@ -88,8 +94,12 @@ export default function ResumeItem({ resume }: { resume: Resume }) {
           </div>
         ))}
       </div>
-      <Divider />
-      <SkillAttestationList />
+      {showAttestationList && (
+        <>
+          <Divider />
+          <SkillAttestationList />
+        </>
+      )}
     </div>
   )
 }
