@@ -42,10 +42,10 @@ export async function storeFile(resume: Resume) {
 
   console.log('file stored, cid:', cid)
 
-  const file = await getFile(cid)
-  console.log(file)
+  // const file = await getFile(cid)
+  // console.log(file)
 
-  return { cid, file }
+  return cid
 }
 
 async function getFile(cid: string) {
