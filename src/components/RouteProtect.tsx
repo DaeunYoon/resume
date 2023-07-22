@@ -19,14 +19,18 @@ export default function RouteProtect({ children }) {
       router.events.off('routeChangeStart', hideContent)
       router.events.off('routeChangeComplete', authCheck)
     }
-
   }, [isConnected])
 
   function authCheck(url) {
     // Public paths can be accessed without connect wallet
-    const publicPaths = ['/resume/all']
+    const privatePaths = ['/resume/my-resume']
+    const privateParentPaths = ['/message']
     const path = url.split('?')[0]
-    if (!isConnected && !publicPaths.includes(path)) {
+    if (
+      !isConnected &&
+      (privatePaths.includes(path) ||
+        privateParentPaths.some((parentPath) => path.startsWith(parentPath)))
+    ) {
       setAuthorized(false)
       router.push({
         pathname: '/resume/all',

@@ -8,15 +8,12 @@ import { SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
 import { ResolvedAttestation } from '~/types'
 import invariant from 'tiny-invariant'
 import { ethers } from 'ethers'
-import { useAccount } from 'wagmi'
 
 import axios from 'axios'
 import { Input, Select, Button } from 'antd'
 import { RocketOutlined, StarOutlined } from '@ant-design/icons'
 
-export default function SkillAttestationList() {
-  const { address } = useAccount()
-
+export default function SkillAttestationList({ address }: { address: string }) {
   const [attestations, setAttestations] = useState<ResolvedAttestation[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -24,9 +21,7 @@ export default function SkillAttestationList() {
     async function getAtts() {
       setAttestations([])
       setLoading(true)
-      if (!address) return
       const tmpAttestations = await getAttestationsForAddress(address)
-      console.log(tmpAttestations)
       const schemaEncoder = new SchemaEncoder('string skill,uint8 score')
 
       const addresses = new Set<string>()

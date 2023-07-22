@@ -84,7 +84,7 @@ export default function CreateSkillAttestation({
           Attest
         </Button>
       </div>
-      <SkillAttestationList />
+      <SkillAttestationList address={address} />
     </div>
   )
 }

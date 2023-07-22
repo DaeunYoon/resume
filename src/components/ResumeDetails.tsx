@@ -27,7 +27,7 @@ export default function ResumeItem({
   return (
     <div className="w-full">
       <div className="font-bold text-center text-lg mb-2">{resume.name}</div>
-      {!isMyResume && (
+      {!isMyResume && address && (
         <div className="w-full flex justify-end">
           <Button
             className="PrimaryButton"
@@ -97,7 +97,7 @@ export default function ResumeItem({
       {showAttestationList && (
         <>
           <Divider />
-          <SkillAttestationList />
+          <SkillAttestationList address={resume.walletAddress} />
         </>
       )}
     </div>
