@@ -9,11 +9,20 @@ import CreateSkillAttestation from '~/components/CreateSkillAttestation'
 import { useAccount } from 'wagmi'
 import { ethers } from 'ethers'
 
+import { CredentialType, IDKitWidget } from '@worldcoin/idkit'
+import type { ISuccessResult } from '@worldcoin/idkit'
+import invariant from 'tiny-invariant'
+
+const WORLDCOIN_ID = process.env.NEXT_PUBLIC_WLD_APP_ID
+invariant(WORLDCOIN_ID, 'WORLDCOIN_ID must be defined')
+
 export default function Home() {
   const { addResume, fetchResumes } = useResumesStore()
   const { resumes, isUploading, isLoading } = useResumesStore(
     (state) => state.state
   )
+
+  const [error, setError] = useState<string | undefined>()
   const [signer, setSigner] = useState(null)
   const [isEditing, setIsEditing] = useState(false)
   const [form] = Form.useForm()
@@ -42,6 +51,37 @@ export default function Home() {
     }
   }
 
+  /** Worldcoin */
+  const handleProof = async (result: ISuccessResult) => {
+    const reqBody = {
+      merkle_root: result.merkle_root,
+      nullifier_hash: result.nullifier_hash,
+      proof: result.proof,
+      credential_type: result.credential_type,
+      action: process.env.NEXT_PUBLIC_WLD_ACTION_NAME,
+      signal: '',
+    }
+
+    return fetch('/api/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reqBody),
+    }).then(async (res: Response) => {
+      return new Promise<void>((resolve, reject) => {
+        if (res.status !== 200) {
+          setError(`Error happend! ${res.detail}`)
+          reject('Verification failed')
+          console.error('Verification failed')
+        }
+
+        console.log('Successfully verified credential.')
+        resolve()
+      })
+    })
+  }
+
   useEffect(() => {
     if (resumes.length === 0) {
       fetchResumes()
@@ -54,6 +94,7 @@ export default function Home() {
       ...value,
       walletAddress: address,
     })
+    setIsEditing(false)
   }
 
   if (isLoading) {
@@ -89,6 +130,7 @@ export default function Home() {
   }
 
   // TODO: Delete old resume once one is updated
+  // Currently not supported from web3.storage
   return (
     <div className="border p-2 block w-[670px]">
       <Form
@@ -255,9 +297,35 @@ export default function Home() {
         </Form.List>
 
         <Form.Item wrapperCol={{ span: 23 }}>
-          <Button htmlType="submit" className="w-full PrimaryButton">
+          {isEditing ? (
+            <Button htmlType="submit" className="w-full PrimaryButton">
+              Submit
+            </Button>
+          ) : (
+            <>
+              <IDKitWidget
+                action={process.env.NEXT_PUBLIC_WLD_ACTION_NAME!}
+                onSuccess={() => onFinish(form.getFieldsValue())}
+                handleVerify={handleProof}
+                app_id={WORLDCOIN_ID}
+                credential_types={[CredentialType.Orb]}
+              >
+                {({ open }) => (
+                  <Button
+                    type="button"
+                    className="w-full PrimaryButton"
+                    onClick={open}
+                  >
+                    Submit
+                  </Button>
+                )}
+              </IDKitWidget>
+              {error && <span className="text-red-500 text-base">{error}</span>}
+            </>
+          )}
+          {/* <Button htmlType="submit" className="w-full PrimaryButton">
             Submit
-          </Button>
+          </Button> */}
         </Form.Item>
       </Form>
       <Divider />

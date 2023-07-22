@@ -51,7 +51,7 @@ export default function ResumeDetails({
         </div>
       </div>
       <div>
-        <span className="font-bold">Education </span>
+        <span className="font-bold">Education</span>
         {resume.educations?.map((education, index) => (
           <div key={index} className="flex gap-1">
             <p>•</p>
@@ -75,7 +75,7 @@ export default function ResumeDetails({
       </div>
 
       <div>
-        <span className="font-bold">Experience: </span>
+        <span className="font-bold">Experience</span>
         {resume.experiences?.map((experience, index) => (
           <div key={index} className="flex gap-1">
             <p>•</p>
