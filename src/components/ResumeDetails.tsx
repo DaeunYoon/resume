@@ -21,8 +21,9 @@ export default function ResumeDetails({
 }) {
   const router = useRouter()
   const [isMyResume, setIsMyResume] = useState(false)
-  const [recentlyMintedPoap, setRecentlyMintedPoap] = useState([])
+  const [recentlyMintedPoaps, setRecentlyMintedPoaps] = useState([])
   const { address } = useAccount()
+  const [isFetchingPoaps, setIsFetchingPoaps] = useState(false)
 
   useEffect(() => {
     if (address === resume.walletAddress) {
@@ -32,8 +33,13 @@ export default function ResumeDetails({
 
   useEffect(() => {
     const getRecentlyMintedPoap = async () => {
-      const poaps = await getRecentlyMintedPoapForId(resume.walletAddress)
-      setRecentlyMintedPoap(poaps)
+      setIsFetchingPoaps(true)
+      try {
+        const poaps = await getRecentlyMintedPoapForId(resume.walletAddress)
+        setRecentlyMintedPoaps(poaps)
+      } finally {
+        setIsFetchingPoaps(false)
+      }
     }
     getRecentlyMintedPoap()
   }, [resume])
@@ -117,17 +123,20 @@ export default function ResumeDetails({
           />
         </>
       )}
-      {Boolean(recentlyMintedPoap.length) && (
-        <>
-          <Divider />
-          <div className="flex gap-2">
-            <div className="w-[calc(50%-0.25rem)]">
-              <span className="font-bold">
-                {resume.name}'s recently minted POAPs:
-              </span>
+      <>
+        <Divider />
+        <div className="flex gap-2">
+          <div className="w-[calc(50%-0.25rem)]">
+            <span className="font-bold">
+              {resume.name}'s recently minted POAPs:
+            </span>
+            {isFetchingPoaps ? (
+              <div>Loading...</div>
+            ) : Boolean(recentlyMintedPoaps.length) ? (
               <div className="flex gap-2">
-                {recentlyMintedPoap.map((poap) => (
+                {recentlyMintedPoaps.map((poap) => (
                   <Link
+                    key={poap.id}
                     href={`https://app.poap.xyz/token/${poap.id}`}
                     target="_blank"
                   >
@@ -135,10 +144,12 @@ export default function ResumeDetails({
                   </Link>
                 ))}
               </div>
-            </div>
+            ) : (
+              <div>No poaps found</div>
+            )}
           </div>
-        </>
-      )}
+        </div>
+      </>
     </div>
   )
 }
