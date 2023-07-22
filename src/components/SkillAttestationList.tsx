@@ -1,4 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import Link from 'next/link'
 
 import {
   baseURL,
@@ -10,13 +11,13 @@ import {
 
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk'
 
-import { ResolvedAttestation } from '~/types'
+import { ResolvedAttestation, Attestation } from '~/types'
 import invariant from 'tiny-invariant'
 import { ethers } from 'ethers'
 import { useAccount } from 'wagmi'
 
 import axios from 'axios'
-import { Input, Select, Button } from 'antd'
+import { Input, Select, Button, Popover } from 'antd'
 import { RocketOutlined, StarOutlined, SmileFilled } from '@ant-design/icons'
 
 const eas = new EAS(EASContractAddress)
@@ -92,6 +93,19 @@ export default function SkillAttestationList({
     }
   }, [isStale, isStaleLocal])
 
+  const content = (confirmations: Attestation[]) => (
+    <div>
+      <div className="font-bold mb-2">Attested by</div>
+      {confirmations.map((conf, idx) => {
+        return (
+          <div key={idx}>
+            <Link href={`/resume/${conf.attester}`}>{conf.attester}</Link>
+          </div>
+        )
+      })}
+    </div>
+  )
+
   return (
     <div className="max-w-[600px] border rounded p-2">
       <h3 className="font-bold mb-3">Attestations</h3>
@@ -113,7 +127,9 @@ export default function SkillAttestationList({
                     out of 10
                   </div>
                   <div className="text-gray-400 text-sm flex gap-2 items-center">
-                    <span>Attested by {att.confirmations.length} people</span>
+                    <Popover content={content(att.confirmations)}>
+                      <div>Attested by {att.confirmations.length} people</div>
+                    </Popover>
                     {attestAddress !== address &&
                     !att.confirmations.some(
                       (confirmation) => confirmation.attester === address

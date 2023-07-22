@@ -49,9 +49,15 @@ export default function Page() {
   return (
     <>
       <BackButton />
-      {isLoading && <div>Loading...</div>}
-      {selectedResume && (
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : selectedResume ? (
         <ResumeDetails resume={selectedResume} signer={signer} />
+      ) : (
+        <div>
+          Resume not found with wallet address. Please check the wallet address
+          again.
+        </div>
       )}
     </>
   )
