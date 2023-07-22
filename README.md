@@ -8,6 +8,7 @@ This is an on-chain resume application.
 First, run the development server:
 
 ```bash
+pnpm install
 pnpm dev
 ```
 
