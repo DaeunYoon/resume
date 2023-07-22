@@ -9,6 +9,7 @@ import { useAccount } from 'wagmi'
 import { FileTextOutlined, CommentOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
+import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -34,13 +35,28 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Resume', 'resume', <FileTextOutlined />, [
-    getItem('All', '/resume/all'),
-    getItem('My Resume', '/resume/my-resume'),
-  ]),
-  getItem('Message', 'message', <CommentOutlined />, [
-    getItem('All', '/message/all'),
-  ]),
+  getItem(
+    'Resume',
+    'resume',
+    <Image
+      src="/head-paperclip.png"
+      alt="noun-glasses-square"
+      width="24"
+      height="24"
+    />,
+    [getItem('All', '/resume/all'), getItem('My Resume', '/resume/my-resume')]
+  ),
+  getItem(
+    'Message',
+    'message',
+    <Image
+      src="/head-mailbox.png"
+      alt="noun-glasses-square"
+      width="24"
+      height="24"
+    />,
+    [getItem('All', '/message/all')]
+  ),
 ]
 
 // submenu keys of first level
@@ -74,7 +90,15 @@ export default function RootLayout({
   return (
     <main className="w-full h-screen flex flex-col">
       <div className="w-full flex h-14 justify-between items-center border-b border-gray-200 py-2 px-2">
-        <div className="font-bold">RESUME</div>
+        <div className="font-bold flex items-center">
+          RESUME
+          <Image
+            src="/glasses-square-fullblack.png"
+            alt="noun-glasses-square"
+            width="40"
+            height="40"
+          />
+        </div>
         <Web3Button />
       </div>
       <div className="w-full h-full flex">

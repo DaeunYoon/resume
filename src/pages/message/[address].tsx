@@ -93,7 +93,7 @@ export default function Page() {
       <BackButton />
       {/* Render the Chat component if connected, initialized, and messages exist */}
       {isLoading ? (
-        <>Loading...</>
+        <>Looking for data...⌐◨-◨</>
       ) : (
         isConnected &&
         isOnNetwork &&

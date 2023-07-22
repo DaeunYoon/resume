@@ -128,10 +128,10 @@ export default function ResumeDetails({
         <div className="flex gap-2">
           <div className="w-[calc(50%-0.25rem)]">
             <span className="font-bold">
-              {resume.name}'s recently minted POAPs:
+              {resume.name}&apos;s recently minted POAPs:
             </span>
             {isFetchingPoaps ? (
-              <div>Loading...</div>
+              <div>Looking for data...⌐◨-◨</div>
             ) : Boolean(recentlyMintedPoaps.length) ? (
               <div className="flex gap-2">
                 {recentlyMintedPoaps.map((poap) => (

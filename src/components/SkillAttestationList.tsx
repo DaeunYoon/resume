@@ -109,7 +109,7 @@ export default function SkillAttestationList({
   return (
     <div className="max-w-[600px] border rounded p-2">
       <h3 className="font-bold mb-3">Attestations</h3>
-      {loading && <div>Loading...</div>}
+      {loading && <div>Looking for data...⌐◨-◨</div>}
       {!loading && (
         <div className="flex flex-col divide-y-2 divide-dashed">
           {attestations.length ? (

@@ -16,7 +16,7 @@ export default function Home() {
   }, [])
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Looking for data...⌐◨-◨</div>
   }
 
   const columns: ColumnsType<Resume> = [

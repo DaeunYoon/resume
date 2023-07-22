@@ -98,11 +98,11 @@ export default function Home() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Looking for data...⌐◨-◨</div>
   }
 
   if (isUploading) {
-    return <div>Uploading...</div>
+    return <div>Uploading...⌐◨-◨</div>
   }
 
   if (myResume && !isEditing) {

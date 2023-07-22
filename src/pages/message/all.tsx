@@ -48,7 +48,7 @@ export default function Home() {
       <h2 className="text-lg font-bold mb-3">Your conversations</h2>
       {/* Display XMTP connection options if connected but not initialized */}
       {!xmtpClient?.address || isLoading ? (
-        <>Loading...</>
+        <>Looking for data...⌐◨-◨</>
       ) : conversations.length > 0 ? (
         <div className="divide-y divide-solid max-w-[700px] border rounded py-1 px-2">
           {conversations.map((conversation, index) => (
@@ -56,7 +56,7 @@ export default function Home() {
               <span className="text-gray-700">Conversation with</span>
               <Button type="link">
                 <Link href={`/message/${conversation?.peerAddress}`}>
-                  "{conversation?.peerAddress}"
+                  &quot;{conversation?.peerAddress}&quot;
                 </Link>
               </Button>
             </div>

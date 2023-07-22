@@ -50,7 +50,7 @@ export default function Page() {
     <>
       <BackButton />
       {isLoading ? (
-        <div>Loading...</div>
+        <div>Looking for data...⌐◨-◨</div>
       ) : selectedResume ? (
         <ResumeDetails resume={selectedResume} signer={signer} />
       ) : (
