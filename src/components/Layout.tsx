@@ -40,7 +40,7 @@ const items: MenuItem[] = [
     'resume',
     <Image
       src="/head-paperclip.png"
-      alt="noun-glasses-square"
+      alt="noun-paperclip"
       width="24"
       height="24"
     />,
@@ -49,13 +49,19 @@ const items: MenuItem[] = [
   getItem(
     'Message',
     'message',
+    <Image src="/head-mailbox.png" alt="noun-mailbox" width="24" height="24" />,
+    [getItem('All', '/message/all')]
+  ),
+  getItem(
+    'Meeting',
+    'meeting',
     <Image
-      src="/head-mailbox.png"
-      alt="noun-glasses-square"
+      src="/head-cordlessphone.png"
+      alt="noun-cordlessphone"
       width="24"
       height="24"
     />,
-    [getItem('All', '/message/all')]
+    [getItem('All', '/meeting')]
   ),
 ]
 
