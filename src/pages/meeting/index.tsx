@@ -188,7 +188,7 @@ const Meeting = () => {
           state.value?.Initialized?.JoinedRoom) && (
           <div>
             <div className="break-words">
-              {Object.values(peers).length} poeple joined room!
+              {Object.values(peers).length + 1} poeple joined room!
             </div>
           </div>
         )}
