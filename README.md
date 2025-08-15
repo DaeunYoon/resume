@@ -1,7 +1,9 @@
 ### ResuMe
 
-This is an on-chain resume application.
+<img width="2940" height="1612" alt="image" src="https://github.com/user-attachments/assets/fdeec8cf-00c6-4121-9102-c3ce8af46044" />
 
+This is an on-chain resume application.
+Detailed explanation about project can be found here: https://ethglobal.com/showcase/resume-ni9w0
 
 ## Getting Started
 
